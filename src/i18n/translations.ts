@@ -1,0 +1,56 @@
+export const translations = {
+  en: {
+    common: {
+      book: 'Book Now',
+      cancel: 'Cancel',
+      confirm: 'Confirm',
+      next: 'Next',
+      back: 'Back',
+    },
+    tourTypes: {
+      group: 'Group Tour',
+      private: 'Private Tour',
+      taxi: 'Boat Taxi',
+    },
+    booking: {
+      selectTour: 'Select Tour Type',
+      selectRoute: 'Select Route',
+      selectDate: 'Select Date',
+      selectTime: 'Select Time',
+      customerDetails: 'Your Details',
+      passengers: 'Number of Passengers',
+      name: 'Full Name',
+      email: 'Email',
+      phone: 'Phone Number',
+      confirmation: 'Booking Confirmation',
+      seatsAvailable: 'seats available',
+    },
+  },
+  hr: {
+    common: {
+      book: 'Rezerviraj',
+      cancel: 'Odustani',
+      confirm: 'Potvrdi',
+      next: 'Dalje',
+      back: 'Natrag',
+    },
+    tourTypes: {
+      group: 'Grupni Izlet',
+      private: 'Privatni Izlet',
+      taxi: 'Taxi Brod',
+    },
+    booking: {
+      selectTour: 'Odaberi Vrstu Izleta',
+      selectRoute: 'Odaberi Rutu',
+      selectDate: 'Odaberi Datum',
+      selectTime: 'Odaberi Vrijeme',
+      customerDetails: 'Vaši Podaci',
+      passengers: 'Broj Putnika',
+      name: 'Puno Ime',
+      email: 'Email',
+      phone: 'Telefon',
+      confirmation: 'Potvrda Rezervacije',
+      seatsAvailable: 'slobodnih mjesta',
+    },
+  },
+};

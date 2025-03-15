@@ -1,0 +1,53 @@
+# Add proper MIME types for the widget assets
+
+<IfModule mod_mime.c>
+    AddType text/javascript js
+    AddType text/css css
+</IfModule>
+
+# Allow cross-origin requests for the assets
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+
+    # Add these lines for the booking widget
+    <FilesMatch "\.(js|css)$">
+        Header set Content-Type "application/javascript" env=js
+        Header set Content-Type "text/css" env=css
+    </FilesMatch>
+
+</IfModule>
+
+# BEGIN Headers Security Advanced & HSTS WP 5.0.41
+
+<IfModule mod_headers.c>
+    # Update this line to allow scripts and styles
+    Header set Content-Security-Policy "upgrade-insecure-requests; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+    
+    # Rest of your existing headers...
+</IfModule>
+# END Headers Security Advanced & HSTS WP
+
+# BEGIN Booking Widget Settings
+
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType text/css .css
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|css)$">
+        Header set Access-Control-Allow-Origin "*"
+        Header set Content-Type "application/javascript" env=js
+        Header set Content-Type "text/css" env=css
+    </FilesMatch>
+</IfModule>
+
+# Update Content Security Policy
+
+<IfModule mod_headers.c>
+    Header set Content-Security-Policy "upgrade-insecure-requests; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; default-src 'self';"
+</IfModule>
+# END Booking Widget Settings

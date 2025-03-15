@@ -25,7 +25,7 @@ function App({
   console.log("App is rendering");
 
   return (
-    <div className="min-h-screen bg-transparent">
+    <div className="inline-block">
       <button
         onClick={() => setIsDialogOpen(true)}
         className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
@@ -33,11 +33,15 @@ function App({
         {buttonText}
       </button>
 
-      <BookingDialog
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        language={language}
-      />
+      {isDialogOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <BookingDialog
+            isOpen={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            language={language}
+          />
+        </div>
+      )}
 
       {isAdmin && (
         <AdminDashboard

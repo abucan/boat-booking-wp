@@ -24,10 +24,21 @@ function App({
   // Add this for debugging
   console.log("App is rendering");
 
+  // Add handlers for dialog state
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true);
+    window.parent.postMessage("dialogOpen", "*");
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
+    window.parent.postMessage("dialogClose", "*");
+  };
+
   return (
     <div className="inline-block">
       <button
-        onClick={() => setIsDialogOpen(true)}
+        onClick={handleOpenDialog}
         className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
       >
         {buttonText}
@@ -37,7 +48,7 @@ function App({
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <BookingDialog
             isOpen={isDialogOpen}
-            onClose={() => setIsDialogOpen(false)}
+            onClose={handleCloseDialog}
             language={language}
           />
         </div>

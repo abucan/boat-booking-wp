@@ -10,9 +10,12 @@ interface AppProps {
   language?: string;
 }
 
-function App({ buttonText, language: rawLanguage = "en" }: AppProps) {
+function App({
+  buttonText = "Book Now",
+  language: rawLanguage = "en",
+}: AppProps) {
   const language = rawLanguage as Language;
-
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
 
   const isAdmin =
@@ -22,15 +25,17 @@ function App({ buttonText, language: rawLanguage = "en" }: AppProps) {
   console.log("App is rendering");
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Add this to verify the component is mounting */}
-      <h1>Booking Dialog Should Appear Below</h1>
+    <div className="min-h-screen bg-transparent">
+      <button
+        onClick={() => setIsDialogOpen(true)}
+        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+      >
+        {buttonText}
+      </button>
 
       <BookingDialog
-        isOpen={true}
-        onClose={() => {
-          console.log("Close attempted");
-        }}
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
         language={language}
       />
 

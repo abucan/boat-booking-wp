@@ -29,7 +29,7 @@ function App({
     <div className='flex justify-center'>
       <button
         onClick={handleOpenDialog}
-        className='bg-black text-white px-[19px] py-[14px] rounded-[5px] hover:bg-blue-700 transition-colors flex flex-row gap-2 font-medium text-[15px]'
+        className='bg-blue-600 text-white px-[19px] py-[14px] rounded-[5px] hover:bg-blue-700 transition-colors flex flex-row gap-2 font-medium text-[15px]'
       >
         <CircleFadingPlus />
         {buttonText}

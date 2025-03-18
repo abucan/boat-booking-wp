@@ -171,7 +171,88 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       1
     );
 
-    slots.push(airportSlot, trogirSlot);
+    const supetarSlot = createTimeSlotForDate(
+      'split-supetar-transfer',
+      'split-supetar-transfer',
+      date,
+      hour,
+      0,
+      20,
+      'taxi',
+      10,
+      1
+    );
+
+    const milnaSlot = createTimeSlotForDate(
+      'split-milna-transfer',
+      'split-milna-transfer',
+      date,
+      hour,
+      0,
+      25,
+      'taxi',
+      10,
+      1
+    );
+
+    const bolSlot = createTimeSlotForDate(
+      'split-bol-transfer',
+      'split-bol-transfer',
+      date,
+      hour,
+      0,
+      60,
+      'taxi',
+      10,
+      1
+    );
+
+    const stomorskaSlot = createTimeSlotForDate(
+      'split-stomorska-transfer',
+      'split-stomorska-transfer',
+      date,
+      hour,
+      0,
+      25,
+      'taxi',
+      10,
+      1
+    );
+
+    const rogacSlot = createTimeSlotForDate(
+      'split-rogac-transfer',
+      'split-rogac-transfer',
+      date,
+      hour,
+      0,
+      25,
+      'taxi',
+      10,
+      1
+    );
+
+    const hvarSlot = createTimeSlotForDate(
+      'split-hvar-transfer',
+      'split-hvar-transfer',
+      date,
+      hour,
+      0,
+      60,
+      'taxi',
+      10,
+      1
+    );
+
+    slots.push(
+      airportSlot,
+      trogirSlot,
+      supetarSlot,
+      milnaSlot,
+      bolSlot,
+      stomorskaSlot,
+      rogacSlot,
+      hvarSlot
+    );
   }
 
   return slots;

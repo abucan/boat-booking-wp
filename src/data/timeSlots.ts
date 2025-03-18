@@ -1,5 +1,4 @@
 import type { TimeSlot } from '../types/booking';
-import { supabase } from '../lib/supabase';
 import { timeSlotCache } from '../lib/cache';
 
 // Helper function to create time slots for a specific date
@@ -16,7 +15,7 @@ const createTimeSlotForDate = (
 ): TimeSlot => {
   const startTime = new Date(date);
   startTime.setHours(startHour, startMinute, 0, 0);
-  
+
   const endTime = new Date(startTime);
   endTime.setMinutes(endTime.getMinutes() + durationMinutes);
 
@@ -27,7 +26,7 @@ const createTimeSlotForDate = (
     endTime: endTime.toISOString(),
     type,
     availableSeats,
-    seasonalMultiplier
+    seasonalMultiplier,
   };
 };
 
@@ -35,42 +34,6 @@ const createTimeSlotForDate = (
 const isHighSeason = (date: Date) => {
   const month = date.getMonth() + 1; // JavaScript months are 0-based
   return month >= 6 && month <= 9;
-};
-
-// Check if a time slot overlaps with existing bookings
-const isTimeSlotAvailable = async (
-  startTime: string,
-  endTime: string,
-  routeId: string,
-  type: 'group' | 'private' | 'taxi'
-): Promise<boolean> => {
-  try {
-    // For taxi boats, we don't need to check other types
-    if (type === 'taxi') {
-      const { data: existingBookings, error } = await supabase
-        .from('bookings')
-        .select('*')
-        .eq('tour_type', 'taxi')
-        .eq('route_id', routeId)
-        .eq('booking_date', new Date(startTime).toISOString());
-
-      if (error) throw error;
-      return !existingBookings || existingBookings.length === 0;
-    }
-
-    // For group and private tours, check all non-taxi bookings as they use the same boats
-    const { data: existingBookings, error } = await supabase
-      .from('bookings')
-      .select('*')
-      .neq('tour_type', 'taxi')
-      .eq('booking_date', new Date(startTime).toISOString());
-
-    if (error) throw error;
-    return !existingBookings || existingBookings.length === 0;
-  } catch (error) {
-    console.error('Error checking booking availability:', error);
-    return false;
-  }
 };
 
 // Generate time slots for a specific date
@@ -88,7 +51,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 300,
       type: 'group' as const,
-      seats: 10
+      seats: 10,
     },
     {
       id: 'blue-lagoon-afternoon-group',
@@ -97,7 +60,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 300,
       type: 'group' as const,
-      seats: 10
+      seats: 10,
     },
     // Blue Cave Group Tour
     {
@@ -107,7 +70,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 660,
       type: 'group' as const,
-      seats: 10
+      seats: 10,
     },
     // Private Tours
     {
@@ -117,7 +80,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 300,
       type: 'private' as const,
-      seats: 10
+      seats: 10,
     },
     {
       id: 'blue-lagoon-afternoon-private',
@@ -126,7 +89,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 300,
       type: 'private' as const,
-      seats: 10
+      seats: 10,
     },
     {
       id: 'blue-cave-private',
@@ -135,7 +98,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 660,
       type: 'private' as const,
-      seats: 10
+      seats: 10,
     },
     {
       id: 'swimming-horses-morning-private',
@@ -144,7 +107,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 300,
       type: 'private' as const,
-      seats: 10
+      seats: 10,
     },
     {
       id: 'swimming-horses-afternoon-private',
@@ -153,7 +116,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 300,
       type: 'private' as const,
-      seats: 10
+      seats: 10,
     },
     {
       id: 'hvar-blue-lagoon-private',
@@ -162,11 +125,11 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       startMinute: 0,
       duration: 600,
       type: 'private' as const,
-      seats: 10
-    }
+      seats: 10,
+    },
   ];
 
-  // Check availability and add valid slots
+  // Add all slots (no need to check availability since we're not using a database)
   for (const slot of potentialSlots) {
     const timeSlot = createTimeSlotForDate(
       slot.id,
@@ -179,22 +142,11 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       slot.seats,
       slot.type === 'private' ? seasonalMultiplier : 1
     );
-
-    const isAvailable = await isTimeSlotAvailable(
-      timeSlot.startTime,
-      timeSlot.endTime,
-      slot.routeId,
-      slot.type
-    );
-
-    if (isAvailable) {
-      slots.push(timeSlot);
-    }
+    slots.push(timeSlot);
   }
 
   // Add taxi transfers (available every hour from 6 AM to 10 PM)
   for (let hour = 6; hour <= 22; hour++) {
-    // Create potential taxi slots
     const airportSlot = createTimeSlotForDate(
       'split-airport-transfer',
       'split-airport-transfer',
@@ -219,23 +171,7 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       1
     );
 
-    // Check availability for each taxi slot
-    const isAirportSlotAvailable = await isTimeSlotAvailable(
-      airportSlot.startTime,
-      airportSlot.endTime,
-      'split-airport-transfer',
-      'taxi'
-    );
-
-    const isTrogirSlotAvailable = await isTimeSlotAvailable(
-      trogirSlot.startTime,
-      trogirSlot.endTime,
-      'split-trogir-transfer',
-      'taxi'
-    );
-
-    if (isAirportSlotAvailable) slots.push(airportSlot);
-    if (isTrogirSlotAvailable) slots.push(trogirSlot);
+    slots.push(airportSlot, trogirSlot);
   }
 
   return slots;
@@ -255,7 +191,7 @@ export const getFilteredTimeSlots = async (
   // If not in cache, fetch and filter slots
   const allSlots = await getTimeSlotsForDate(date);
   const filteredSlots = allSlots.filter(
-    slot => slot.routeId === routeId && slot.type === tourType
+    (slot) => slot.routeId === routeId && slot.type === tourType
   );
 
   // Cache the results

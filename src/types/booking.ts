@@ -24,19 +24,6 @@ export interface TimeSlot {
   seasonalMultiplier: number;
 }
 
-export interface Booking {
-  id: string;
-  timeSlotId: string;
-  bookingDate: Date;
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
-  numberOfPassengers: number;
-  status: 'pending' | 'confirmed' | 'cancelled';
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface BookingFormData {
   tourType: TourType;
   routeId: string;

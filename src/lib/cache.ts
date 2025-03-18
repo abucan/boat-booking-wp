@@ -17,15 +17,15 @@ class TimeSlotCache {
   get(date: Date, routeId: string, tourType: string): TimeSlot[] | null {
     const key = this.getCacheKey(date, routeId, tourType);
     const entry = this.cache.get(key);
-    
+
     if (!entry) return null;
-    
+
     // Check if cache is still valid
     if (Date.now() - entry.timestamp > CACHE_DURATION) {
       this.cache.delete(key);
       return null;
     }
-    
+
     return entry.slots;
   }
 
@@ -33,7 +33,7 @@ class TimeSlotCache {
     const key = this.getCacheKey(date, routeId, tourType);
     this.cache.set(key, {
       slots,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 

@@ -11,6 +11,8 @@ export interface Route {
   duration: number; // in minutes
   capacity: number;
   basePrice: number;
+  privateTourPrice?: number; // Optional price for private tours
+  discountedPrivateTourPrice?: number;
   stops: string[];
 }
 

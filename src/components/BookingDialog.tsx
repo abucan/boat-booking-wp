@@ -91,6 +91,7 @@ export function BookingDialog({
       await sendBookingEmails({
         customerName: formData.customerName,
         customerEmail: formData.customerEmail,
+        customerPhone: formData.customerPhone,
         bookingDate: formData.selectedDate,
         routeId: formData.routeId,
         tourType: formData.tourType,
@@ -171,7 +172,13 @@ export function BookingDialog({
   };
 
   const handleTimeSlotSelect = (timeSlot: TimeSlot) => {
-    setFormData({ ...formData, timeSlotId: timeSlot.id });
+    console.log('Time slot selected:', formatTime(timeSlot.startTime));
+    setFormData({
+      ...formData,
+      timeSlotId: `${formatTime(timeSlot.startTime)} - ${formatTime(
+        timeSlot.endTime
+      )}`,
+    });
     setStep(4);
   };
 
@@ -208,15 +215,27 @@ export function BookingDialog({
             </p>
             <div className='mt-auto'>
               <div className='flex items-center justify-between'>
-                <span className='text-sm text-gray-500'>
-                  {Math.floor(route.duration / 60)}h {route.duration % 60}min
-                </span>
                 <span className='text-lg font-semibold'>
-                  {formData.tourType === 'group'
-                    ? `€${route.basePrice} per person`
-                    : `€${route.basePrice} fixed price`}
+                  {formData.tourType === 'group' ? (
+                    `€${route.basePrice} per person`
+                  ) : formData.tourType === 'private' &&
+                    route.privateTourPrice ? (
+                    route.discountedPrivateTourPrice ? (
+                      <>
+                        <s className='text-red-500'>
+                          €{route.privateTourPrice}
+                        </s>{' '}
+                        €{route.discountedPrivateTourPrice}
+                      </>
+                    ) : (
+                      `€${route.privateTourPrice}`
+                    )
+                  ) : (
+                    `€${route.basePrice}`
+                  )}
                 </span>
               </div>
+
               <div className='mt-2 flex flex-wrap gap-2'>
                 {route.stops.map((stop, index) => (
                   <span
@@ -451,8 +470,20 @@ export function BookingDialog({
               </>
             ) : (
               <p className='font-semibold'>
-                {language === 'en' ? 'Fixed price' : 'Fiksna cijena'}: €
-                {route.basePrice}
+                {language === 'en' ? 'Price' : 'Cijena'}: €
+                {route?.privateTourPrice &&
+                route?.discountedPrivateTourPrice ? (
+                  <>
+                    <s className='text-red-500'>{route.privateTourPrice}</s> €
+                    {route.discountedPrivateTourPrice}
+                  </>
+                ) : (
+                  <>
+                    €
+                    {route?.privateTourPrice ||
+                      route?.discountedPrivateTourPrice}
+                  </>
+                )}
               </p>
             )}
           </div>

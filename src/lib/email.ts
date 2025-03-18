@@ -6,6 +6,7 @@ import type { Language } from '../types/booking';
 interface SendBookingEmailsProps {
   customerName: string;
   customerEmail: string;
+  customerPhone: string;
   bookingDate: Date;
   routeId: string;
   tourType: string;
@@ -17,6 +18,7 @@ interface SendBookingEmailsProps {
 export async function sendBookingEmails({
   customerName,
   customerEmail,
+  customerPhone,
   bookingDate,
   routeId,
   tourType,
@@ -38,8 +40,10 @@ export async function sendBookingEmails({
     if (tourType === 'group') {
       pricePerPerson = route.basePrice;
       totalPrice = route.basePrice * numberOfPassengers;
-    } else {
+    } else if (tourType === 'taxi') {
       totalPrice = route.basePrice;
+    } else {
+      totalPrice = route?.discountedPrivateTourPrice || 0;
     }
 
     // Format date
@@ -52,13 +56,14 @@ export async function sendBookingEmails({
     const priceInfo =
       tourType === 'group'
         ? `Total Price: €${totalPrice} (€${pricePerPerson} per person)`
-        : `Fixed Price: €${totalPrice}`;
+        : `Price: €${totalPrice}`;
 
     // Common email data
     const emailData = {
       booking_id: bookingId,
       customer_name: customerName,
       customer_email: customerEmail,
+      customer_phone: customerPhone,
       booking_date: formattedDate,
       route_name: routeName,
       tour_type: tourType.charAt(0).toUpperCase() + tourType.slice(1),

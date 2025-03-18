@@ -26,10 +26,10 @@ function App({
   };
 
   return (
-    <div className='inline-block'>
+    <div className='flex justify-center'>
       <button
         onClick={handleOpenDialog}
-        className='bg-black text-white px-[19px] py-[14px] rounded-[5px] border-[1px] border-[#fff] hover:bg-blue-700 transition-colors flex flex-row gap-2 font-medium text-[15px]'
+        className='bg-black text-white px-[19px] py-[14px] rounded-[5px] hover:bg-blue-700 transition-colors flex flex-row gap-2 font-medium text-[15px]'
       >
         <CircleFadingPlus />
         {buttonText}

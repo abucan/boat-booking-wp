@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BookingDialog } from './components/BookingDialog';
 import type { Language } from './types/booking';
+import { CircleFadingPlus } from 'lucide-react';
 
 interface AppProps {
   buttonText?: string;
@@ -28,8 +29,9 @@ function App({
     <div className='inline-block'>
       <button
         onClick={handleOpenDialog}
-        className='bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors'
+        className='bg-black text-white px-[19px] py-[14px] rounded-[5px] border-[1px] border-[#fff] hover:bg-blue-700 transition-colors flex flex-row gap-2 font-medium text-[15px]'
       >
+        <CircleFadingPlus />
         {buttonText}
       </button>
 

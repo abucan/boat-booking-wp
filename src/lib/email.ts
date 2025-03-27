@@ -1,7 +1,7 @@
-import emailjs from '@emailjs/browser';
-import { routes } from '../data/routes';
-import { format } from 'date-fns';
-import type { Language } from '../types/booking';
+import emailjs from "@emailjs/browser";
+import { routes } from "../data/routes";
+import { format } from "date-fns";
+import type { Language } from "../types/booking";
 
 interface SendBookingEmailsProps {
   customerName: string;
@@ -29,32 +29,32 @@ export async function sendBookingEmails({
   try {
     // Get route details
     const route = routes.find((r) => r.id === routeId);
-    if (!route) throw new Error('Route not found');
+    if (!route) throw new Error("Route not found");
 
-    const routeName = language === 'en' ? route.nameEn : route.nameHr;
+    const routeName = language === "en" ? route.nameEn : route.nameHr;
 
     // Calculate pricing
     let totalPrice: number;
     let pricePerPerson: number | null = null;
 
-    if (tourType === 'group') {
+    if (tourType === "group") {
       pricePerPerson = route.basePrice;
       totalPrice = route.basePrice * numberOfPassengers;
-    } else if (tourType === 'taxi') {
+    } else if (tourType === "taxi") {
       totalPrice = route.basePrice;
     } else {
       totalPrice = route?.discountedPrivateTourPrice || 0;
     }
 
     // Format date
-    const formattedDate = format(bookingDate, 'dd.MM.yyyy.');
+    const formattedDate = format(bookingDate, "dd.MM.yyyy.");
 
     // Generate a booking ID
     const bookingId = `BK-${Date.now().toString(36).toUpperCase()}`;
 
     // Format price strings
     const priceInfo =
-      tourType === 'group'
+      tourType === "group"
         ? `Total Price: €${totalPrice} (€${pricePerPerson} per person)`
         : `Price: €${totalPrice}`;
 
@@ -73,13 +73,13 @@ export async function sendBookingEmails({
       tour_duration: `${Math.floor(route.duration / 60)}h ${
         route.duration % 60
       }min`,
-      tour_stops: route.stops.join(', '),
+      tour_stops: route.stops.join(", "),
     };
 
     // Send email to admin
     await emailjs.send(
-      'service_ii71uwq',
-      'admin_template',
+      "service_mdn1s4c",
+      "admin_template",
       {
         ...emailData,
         to_email: import.meta.env.VITE_ADMIN_EMAIL,
@@ -89,8 +89,8 @@ export async function sendBookingEmails({
 
     // Send confirmation email to customer
     await emailjs.send(
-      'service_ii71uwq',
-      'customer_template',
+      "service_mdn1s4c",
+      "customer_template",
       {
         ...emailData,
         to_email: customerEmail,
@@ -100,7 +100,7 @@ export async function sendBookingEmails({
 
     return { success: true };
   } catch (error) {
-    console.error('Error sending emails:', error);
+    console.error("Error sending emails:", error);
     throw error;
   }
 }

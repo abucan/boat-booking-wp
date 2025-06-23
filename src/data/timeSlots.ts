@@ -127,6 +127,15 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       type: 'private' as const,
       seats: 10,
     },
+    {
+      id: 'sunset-split-private',
+      routeId: 'sunset-split',
+      startHour: 18,
+      startMinute: 30,
+      duration: 120,
+      type: 'private' as const,
+      seats: 10,
+    },
   ];
 
   // Add all slots (no need to check availability since we're not using a database)

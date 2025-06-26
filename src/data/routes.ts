@@ -3,8 +3,8 @@ import type { Route } from '../types/booking';
 export const routes: Route[] = [
   {
     id: 'blue-lagoon-trogir',
-    nameEn: 'Blue Lagoon & Trogir',
-    nameHr: 'Plava Laguna i Trogir',
+    nameEn: 'Exclusive Escape: Private Half-Day Blue Lagoon Adventure',
+    nameHr: 'Exclusive Escape: Private Half-Day Blue Lagoon Adventure',
     descriptionEn:
       'Experience the crystal clear waters of Blue Lagoon and visit the historic UNESCO town of Trogir',
     descriptionHr:
@@ -54,16 +54,16 @@ export const routes: Route[] = [
   },
   {
     id: 'hvar-blue-lagoon',
-    nameEn: 'Hvar & Blue Lagoon',
-    nameHr: 'Hvar i Plava Laguna',
+    nameEn: 'Hvar & Magical Blue Lagoon',
+    nameHr: 'Hvar & Magical Blue Lagoon',
     descriptionEn:
       'Combine the glamour of Hvar with the natural beauty of Blue Lagoon',
     descriptionHr: 'Spojite glamur Hvara s prirodnim ljepotama Plave Lagune',
     duration: 600, // 10 hours in minutes
     capacity: 10,
-    basePrice: 900,
-    privateTourPrice: 900,
-    discountedPrivateTourPrice: 800,
+    basePrice: 800,
+    privateTourPrice: 800,
+    discountedPrivateTourPrice: 750,
     stops: ['Hvar', 'Blue Lagoon'],
   },
   {

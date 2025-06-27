@@ -137,6 +137,7 @@ export function BookingDialog({
             route.id === 'blue-cave-vis' ||
             route.id === 'swimming-horses-brac' ||
             route.id === 'hvar-blue-lagoon' ||
+            route.id === 'blue-lagoon-legend' ||
             route.id === 'sunset-split'
         );
       case 'taxi':

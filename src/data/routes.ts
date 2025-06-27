@@ -67,6 +67,19 @@ export const routes: Route[] = [
     stops: ['Hvar', 'Blue Lagoon'],
   },
   {
+    id: 'blue-lagoon-legend',
+    nameEn: 'Blue Lagoon & Legend',
+    nameHr: 'Blue Lagoon & Legend',
+    descriptionEn: 'Explore the Blue Waters and Nečujam Shipwreck',
+    descriptionHr: 'Explore the Blue Waters and Nečujam Shipwreck',
+    duration: 600, // 10 hours in minutes
+    capacity: 10,
+    basePrice: 700,
+    privateTourPrice: 700,
+    discountedPrivateTourPrice: 600,
+    stops: ['Trogir', 'Blue Lagoon', 'Stomorska', 'Nečujam Shipwreck'],
+  },
+  {
     id: 'sunset-split',
     nameEn: 'Sunset Split',
     nameHr: 'Zalazak u Splitu',

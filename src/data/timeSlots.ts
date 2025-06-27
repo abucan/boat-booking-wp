@@ -128,6 +128,15 @@ export const getTimeSlotsForDate = async (date: Date): Promise<TimeSlot[]> => {
       seats: 10,
     },
     {
+      id: 'blue-lagoon-legend-private',
+      routeId: 'blue-lagoon-legend',
+      startHour: 8,
+      startMinute: 0,
+      duration: 600,
+      type: 'private' as const,
+      seats: 10,
+    },
+    {
       id: 'sunset-split-private',
       routeId: 'sunset-split',
       startHour: 18,

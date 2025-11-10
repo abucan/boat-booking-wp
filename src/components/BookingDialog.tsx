@@ -480,24 +480,34 @@ export function BookingDialog({
                 </p>
               </>
             ) : (
-              <p className='font-semibold'>
-                {language === 'en' ? 'Price' : 'Cijena'}:
-                {route?.privateTourPrice &&
-                route?.discountedPrivateTourPrice ? (
-                  <>
-                    {' '}
-                    €<s className='text-red-500'>{route.privateTourPrice}</s> €
-                    {route.discountedPrivateTourPrice}
-                  </>
-                ) : (
-                  <>
-                    {' '}
-                    €
-                    {route?.privateTourPrice ||
-                      route?.discountedPrivateTourPrice}
-                  </>
-                )}
-              </p>
+              <>
+                <p className='font-semibold'>
+                  {language === 'en' ? 'Price' : 'Cijena'}:
+                  {route?.privateTourPrice &&
+                  route?.discountedPrivateTourPrice ? (
+                    <>
+                      {' '}
+                      €<s className='text-red-500'>
+                        {route.privateTourPrice}
+                      </s>{' '}
+                      €{route.discountedPrivateTourPrice}
+                    </>
+                  ) : (
+                    <>
+                      {' '}
+                      €
+                      {route?.privateTourPrice ||
+                        route?.discountedPrivateTourPrice}
+                    </>
+                  )}
+                </p>
+                <p>
+                  {language === 'en' ? 'Date' : 'Datum'}:{' '}
+                  {format(formData.selectedDate || new Date(), 'MMMM d, yyyy', {
+                    locale: language === 'en' ? enUS : hr,
+                  })}
+                </p>
+              </>
             )}
           </div>
         )}
